@@ -5,3 +5,23 @@
   language: system
   verbose: true
   entry: bash scripts/hooks/jupyter_nb_clear_output.sh
+
+- id: alter-requirements
+  name: alter-requirements
+  description: Copy requirements.txt and removes information which might not be readable by pip or conda.
+  files: requirements.txt
+  stages: [commit]
+  language: python
+  language_version: python3
+  args: [-p, -v, --output=requirements.slim.txt, -f]
+  entry: python scripts/util/alter_requirements.py
+
+- id: alter-requirements-dev
+  name: alter-requirements-dev
+  description: Copy requirements.dev.txt and removes information which might not be readable by pip or conda.
+  files: requirements.dev.txt
+  stages: [commit]
+  language: python
+  language_version: python3
+  entry: python scripts/util/alter_requirements.py
+  args: [-p, -v, --output=requirements.dev.slim.txt, -f]
